@@ -1,76 +1,116 @@
 {
-    "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://example.com/schema.student.json",
-  "title": "Membership",
-    "Membership": {
-      "LastName": {
-        "type": "string",
-        "minLength": 2,
-        "maxLength": 20
-      },
-      "GivenName": {
-        "type": "string",
-        "minLength": 2,
-        "maxLength": 20
-      },
-      "MiddleName": {
-        "type": "string",
-        "nullable": true
-      },
-      "Birthdate": {
-        "Year": {
-          "type": "integer",
-          "minimum": 1900,
-          "maximum": 2025
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "type": "object",
+    "properties": {
+      "Membership": {
+        "type": "object",
+        "properties": {
+          "LastName": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 20
+          },
+          "GivenName": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 20
+          },
+          "MiddleName": {
+            "type": "null"
+          },
+          "Birthdate": {
+            "type": "object",
+            "required": [
+              "Year",
+              "Month",
+              "Day"
+            ],
+            "properties": {
+              "Year": {
+                "type": "integer",
+                "minimum": 1900,
+                "maximum": 2099
+              },
+              "Month": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 12
+              },
+              "Day": {
+                "type": "integer",
+                "minimum": 1
+              }
+            }
+          },
+          "Gender": {
+            "type": "string",
+            "enum": [
+              "M",
+              "F"
+            ]
+          },
+          "ContactDetails": {
+            "type": "object",
+            "properties": {
+              "MobileNumber": {
+                "type": "string",
+                "pattern": "^0\\d{10}$"
+              },
+              "EmailAddress": {
+                "type": "string",
+                "format": "email"
+              }
+            },
+            "required": [
+              "MobileNumber",
+              "EmailAddress"
+            ]
+          },
+          "Interests": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string"
+            }
+          }
         },
-        "Month": {
-          "type": "integer",
-          "minimum": 1,
-          "maximum": 12
-        },
-        "Day": {
-          "type": "integer",
-          "minimum": 1,
-          "maximum": 31
-        }
+        "required": [
+          "LastName",
+          "GivenName",
+          "MiddleName",
+          "Birthdate",
+          "Gender",
+          "ContactDetails",
+          "Interests"
+        ]
       },
-      "Gender": {
-        "type": "string",
-        "enum": ["M", "F"]
-      },
-      "ContactDetails": {
-        "MobileNumber": {
-          "type": "string",
-          "pattern": "^0[0-9]{10}$"
-        },
-        "EmailAddress": {
-          "type": "string",
-          "format": "email"
-        }
-      },
-      "Interests": {
+      "Platforms": {
         "type": "array",
         "minItems": 1,
         "items": {
-          "type": "string"
+          "type": "object",
+          "properties": {
+            "Platform": {
+              "type": "string",
+              "enum": [
+                "PC",
+                "Playstation",
+                "XBox"
+              ]
+            },
+            "Enabled": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "Platform",
+            "Enabled"
+          ]
         }
       }
     },
-    "Platforms": {
-      "type": "array",
-      "minItems": 1,
-      "items": {
-        "type": "object",
-        "properties": {
-          "Platform": {
-            "type": "string",
-            "enum": ["PC", "Playstation", "XBOX"]
-          },
-          "Enabled": {
-            "type": "boolean"
-          }
-        },
-        "required": ["Platform", "Enabled"]
-      }
-    }
+    "required": [
+      "Membership",
+      "Platforms"
+    ]
   }
